@@ -93,7 +93,7 @@ endif
 
 syntax on
 " colorscheme github
-colorscheme dracula
+" colorscheme dracula
 
 " Key Bindings 
 nmap <F7> :NERDTreeToggle<CR>
