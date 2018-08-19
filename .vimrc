@@ -19,7 +19,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'mhinz/vim-signify'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'majutsushi/tagbar'
 Plugin 'dracula/vim'
 " plugin from http://vim-scripts.org/vim/scripts.html
@@ -78,10 +78,17 @@ let g:NERDSpaceDelims=1
 let g:NERDCustomDelimiters={'c':{ 'left': '/**', 'right': '*/'}}
 let g:NERDCommentEmptyLines=1
 
-if &term =~ '256color'
+if &term =~ '256color' || &term == 'screen'
     " Disable Background Color Erase (BCE) so that color schemes
     "     " work properly when Vim is used inside tmux and GNU screen.
     set t_ut=
+    set t_Co=256
+endif
+
+if &term == 'linux'
+    colorscheme solarized
+else
+    colorscheme dracula
 endif
 
 syntax on
