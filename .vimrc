@@ -69,9 +69,8 @@ set colorcolumn=100
 set softtabstop=4 shiftwidth=4 expandtab
 set background=dark
 set title
-set autoindent
-set smartindent
 set hlsearch
+set clipboard=unnamed
 
 " NERDCommenter config
 let g:NERDSpaceDelims=1
@@ -85,11 +84,13 @@ if &term =~ '256color' || &term == 'screen'
     set t_Co=256
 endif
 
-if &term == 'linux'
+if &term == 'linux' || &term == 'screen'
     colorscheme solarized
 else
     colorscheme dracula
 endif
+
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
 
 syntax on
 " colorscheme github
