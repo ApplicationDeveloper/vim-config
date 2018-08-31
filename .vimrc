@@ -73,6 +73,7 @@ set softtabstop=4 shiftwidth=4 expandtab
 set background=dark
 set title
 set hlsearch
+set cursorline
 set clipboard=unnamed
 
 " NERDCommenter config
