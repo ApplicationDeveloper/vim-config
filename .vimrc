@@ -124,5 +124,9 @@ function! LoadSession()
     echo "No session loaded."
   endif
 endfunction
-au VimEnter * nested :call LoadSession()
+
+if (argc() == 0)
+  au VimEnter * nested :call LoadSession()
+endif
+
 au VimLeave * :call MakeSession()
