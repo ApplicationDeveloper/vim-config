@@ -21,7 +21,7 @@ Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'majutsushi/tagbar'
-Plugin 'dracula/vim'
+Plugin 'morhetz/gruvbox'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -66,7 +66,7 @@ let g:tagbar_ctags_bin="/usr/local/bin/ctags"
 " Faster CtrlP search
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 
-set number
+set relativenumber
 set textwidth=99
 set colorcolumn=100
 set softtabstop=4 shiftwidth=4 expandtab
@@ -98,7 +98,7 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2
 
 syntax on
 " colorscheme github
-" colorscheme dracula
+colorscheme gruvbox
 
 " Key Bindings 
 nmap <F7> :NERDTreeToggle<CR>
