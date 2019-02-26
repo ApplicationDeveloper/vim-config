@@ -66,7 +66,7 @@ let g:tagbar_ctags_bin="/usr/local/bin/ctags"
 " Faster CtrlP search
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 
-set relativenumber
+set number relativenumber
 set textwidth=99
 set colorcolumn=100
 set softtabstop=4 shiftwidth=4 expandtab
