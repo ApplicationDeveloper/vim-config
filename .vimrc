@@ -95,6 +95,8 @@ else
 endif
 
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
+"Allow transparent background
+autocmd ColorScheme * highlight Normal ctermbg=None
 
 syntax on
 " colorscheme github
