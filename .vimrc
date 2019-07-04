@@ -3,6 +3,7 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.fzf
 
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
@@ -18,7 +19,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
 " Plugin 'kien/ctrlp.vim'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'majutsushi/tagbar'
@@ -28,7 +29,7 @@ Plugin 'morhetz/gruvbox'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tomasr/molokai'
 Plugin 'lifepillar/vim-mucomplete'
-" Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 " Plugin 'yggdroot/indentline'
 " plugin from http://vm-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -62,7 +63,7 @@ filetype plugin indent on    " required
 let g:airline_powerline_fonts=1
 
 " AirlineTheme config
-let g:airline_theme='wombat'
+let g:airline_theme='ubaryd'
 
 " Signify config
 let g:signify_vcs_list=['git']
@@ -79,12 +80,17 @@ let g:tagbar_ctags_bin="/usr/local/bin/ctags"
 set number "relativenumber
 set textwidth=99
 "set colorcolumn=101
-set softtabstop=4 shiftwidth=4 expandtab
+set softtabstop=2 shiftwidth=2 expandtab
 set background=dark
 set title
 set hlsearch
+
+" Auto indent when copy pasting
+set pastetoggle=<F3>
+
 "set cursorline
 set clipboard=unnamed
+set showcmd
 
 " Fuzzy file built-in
 set path+=**
@@ -94,6 +100,27 @@ set wildignore+=*/min/*,*/vendor/*,*/node_modules/*,*/bower_components/*,*/stora
 " MuComplete
 set completeopt+=menuone,noselect
 let g:mucomplete#enable_auto_at_startup=1
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+let $FZF_DEFAULT_COMMAND=' (git ls-tree -r --name-only HEAD || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+      \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
 
 " let dimension=&colorcolumn + 5
 " 
@@ -123,9 +150,9 @@ else
     " colorscheme dracula
 endif
 
-au BufRead, BufNewFile *.vue set filetype=vue
+au BufRead,BufNewFile *.vue set filetype=html
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType vue setlocal shiftwidth=4 tabstop=4
+autocmd FileType vue setlocal shiftwidth=2 tabstop=2
 "Allow transparent bg
 "autocmd ColorScheme * highlight Normal ctermbg=None
 
@@ -136,6 +163,9 @@ syntax enable
 " colorscheme gruvbox
 " colorscheme solarized
 colorscheme molokai
+
+" FZF Key Bindings
+nmap <C-P> :Files<CR>
 
 " Key Bindings 
 nmap <F7> :NERDTreeToggle<CR>
