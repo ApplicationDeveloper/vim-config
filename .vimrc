@@ -18,40 +18,37 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
-" Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'majutsushi/tagbar'
 Plugin 'dracula/vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'morhetz/gruvbox'
+Plugin 'acoustichero/simple_dark'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tomasr/molokai'
 Plugin 'lifepillar/vim-mucomplete'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
-" Plugin 'yggdroot/indentline'
 " plugin from http://vm-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
 " Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 " Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.                                                                                                  
-" Pass the path to set the runtimepath properly.                                                                                                                        
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}                                                                                                                              
-" Install L9 and avoid a Naming conflict if you've already installed a                                                                                                  
-" different version somewhere else.                                                                                                                                     
-" Plugin 'ascenator/L9', {'name': 'newL9'}                                                                                                                              
-                                                                                                                                                                        
-" All of your Plugins must be added before the following line                                                                                                           
-call vundle#end()            " required                                                                                                                                 
-filetype plugin indent on    " required                                                                                                                                 
-" To ignore plugin indent changes, instead use:                                                                                                                         
-"filetype plugin on                                                                                                                                                     
-"                                                                                                                                                                       
-" Brief help                                                                                                                                                            
-" :PluginList       - lists configured plugins                                                                                                                          
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+" All of your Plugins must be added before the following line
+call vundle#end()            " required      
+filetype plugin indent on    " required       
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+" Brief help
+" :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
@@ -59,11 +56,32 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+set number "relativenumber
+set textwidth=99
+set autoindent
+"set colorcolumn=101
+set nowrap
+set softtabstop=4 shiftwidth=4 expandtab
+set background=dark
+set title
+set hlsearch
+set incsearch
+set clipboard=unnamed
+set showcmd
+" Auto indent when copy pasting
+set pastetoggle=<F3>
+" Fuzzy file built-in
+set path+=**
+set wildmenu
+set wildignore+=*/min/*,*/vendor/*,*/node_modules/*,*/bower_components/*,*/storage/*
+set backupdir=~/.vim/tmp//,.
+set directory=~/.vim/tmp//,.
+
 " Airline config 
 let g:airline_powerline_fonts=1
 
 " AirlineTheme config
-let g:airline_theme='ubaryd'
+let g:airline_theme='luna'
 
 " Signify config
 let g:signify_vcs_list=['git']
@@ -76,26 +94,6 @@ let g:tagbar_ctags_bin="/usr/local/bin/ctags"
 "let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 
 "let g:solarized_termcolors=256
-
-set number "relativenumber
-set textwidth=99
-"set colorcolumn=101
-set softtabstop=2 shiftwidth=2 expandtab
-set background=dark
-set title
-set hlsearch
-
-" Auto indent when copy pasting
-set pastetoggle=<F3>
-
-"set cursorline
-set clipboard=unnamed
-set showcmd
-
-" Fuzzy file built-in
-set path+=**
-set wildmenu
-set wildignore+=*/min/*,*/vendor/*,*/node_modules/*,*/bower_components/*,*/storage/*
 
 " MuComplete
 set completeopt+=menuone,noselect
@@ -137,12 +135,22 @@ let g:NERDSpaceDelims=1
 let g:NERDCustomDelimiters={'c':{ 'left': '/**', 'right': '*/'}}
 let g:NERDCommentEmptyLines=1
 
-"if &term =~ '256color' || &term == 'screen'
-"    " Disable Background Color Erase (BCE) so that color schemes
-"    "     " work properly when Vim is used inside tmux and GNU screen.
-"    set t_ut=
-"    set t_Co=256
-"endif
+" Syntastic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+if &term =~ '256color' || &term == 'screen'
+   " Disable Background Color Erase (BCE) so that color schemes
+   "     " work properly when Vim is used inside tmux and GNU screen.
+   set t_ut=
+   set t_Co=256
+endif
 
 if &term == 'linux' || &term == 'screen'
     " colorscheme solarized
@@ -151,25 +159,26 @@ else
 endif
 
 au BufRead,BufNewFile *.vue set filetype=html
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType vue setlocal shiftwidth=2 tabstop=2
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType js setlocal shiftwidth=4 softtabstop=4 expandtab
 "Allow transparent bg
 "autocmd ColorScheme * highlight Normal ctermbg=None
 
-autocmd ColorScheme * highlight Comment cterm=italic
+"autocmd ColorScheme * highlight Comment cterm=italic
 
+"let g:mucomplete#enable_auto_at_startup = 0 
 syntax enable
 " colorscheme github
 " colorscheme gruvbox
 " colorscheme solarized
-colorscheme molokai
+colorscheme simple_dark
 
 " FZF Key Bindings
 nmap <C-P> :Files<CR>
-
-" Key Bindings 
 nmap <F7> :NERDTreeToggle<CR>
 nmap <F8> :TagbarToggle<CR>
+nmap <C-S-F> :Ag<CR>
 
 " Auto Session
 " function! MakeSession()
@@ -205,3 +214,4 @@ augroup END
 " au VimLeave * :call MakeSession()
 " au BufRead,BufEnter,BufNewFile * IndentLinesReset
 " au VimEnter * Goyo
+com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
