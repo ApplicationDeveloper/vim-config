@@ -8,17 +8,18 @@ Plug 'tadaa/vimade'
 Plug 'joshdick/onedark.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/goyo.vim'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " === Configurations ===
 set number " Show line number
-set mouse=a " Use mouse to scroll 
+set mouse=a " Use mouse to scroll
 set smartindent
 set autoindent
 set nowrap
 set background=light
 set title
-set hlsearch
+" set hlsearch
 set incsearch " Focus search string while typing
 set softtabstop=4 shiftwidth=4 expandtab
 set clipboard=exclude:.* " Don't connect to X display
@@ -26,6 +27,9 @@ set showcmd
 set pastetoggle=<F3> " Auto indent when copy & pasting
 set backupdir=~/.vim/tmp//,. " Set swap files directory
 set directory=~/.vim/tmp//,.
+
+colorscheme gruvbox
+let g:gruvbox_contrast_light='soft'
 
 " Disable Background Color Erase
 " Removes color reside on scroll
@@ -46,6 +50,14 @@ set nowritebackup
 let g:vimade = {}
 let g:vimade.fadelevel = 0.4
 let g:vimade.enablesigns = 1
+
+" Goyo Configurations
+let g:goyo_width = 90
+let g:goyo_height = 95
+
+" FZF Configurations
+" let $FZF_DEFAULT_COMMAND=' (git ls-tree -r --name-only HEAD || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
+let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 " === Key Bindings ===
 " FZF
@@ -87,26 +99,32 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " === Commands ===
-" Disable auto comment 
+" Disable auto comment
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=
 " FZF Preview
 com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
 
-" Open NERDTree on startup
-autocmd VimEnter * NERDTree
-" Change focus to next window
-autocmd VimEnter * 2wincmd w
+" " Open NERDTree on startup
+" autocmd VimEnter * NERDTree
+" " Change focus to next window
+" autocmd VimEnter * 2wincmd w
 
 " Close vim if NERDTree is last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Vue Indentation 
+" Vue Indentation
 au BufRead,BufNewFile *.vue set filetype=vue
 autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
+
+" Always center cursor
+augroup VCenterCursor
+    au!
+    au BufEnter,WinEnter,WinNew,VimResized *,*.*
+        \ let &scrolloff=winheight(win_getid())/2
+augroup END
 " === Color Highlights ===
 
 highlight clear SignColumn
 highlight PMenu ctermbg=235 ctermfg=145
 highlight CocFloating ctermbg=235 ctermfg=145
 highlight LineNr ctermfg=8
-
