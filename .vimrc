@@ -1,35 +1,41 @@
 call plug#begin()
+Plug 'yuttie/comfortable-motion.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
-Plug 'tadaa/vimade'
+Plug 'tpope/vim-surround'
+Plug 'tadaa/vimade' " Breaks fzf on Vim
 Plug 'joshdick/onedark.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } 
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
+let g:gruvbox_contrast_light='soft'
+" colorscheme gruvbox
+" colorscheme onedark
+" colorscheme spacecamp
 " === Configurations ===
-set number " Show line number
-set mouse=a " Use mouse to scroll
+" set number " Show line number
+set guicursor= " Disable cursor shaping neovim
+set mouse=a " Use mouse to scroll 
 set smartindent
 set autoindent
-set nowrap
-set background=light
+" set nowrap
+set background=dark
 set title
-" set hlsearch
+set hlsearch!
 set incsearch " Focus search string while typing
 set softtabstop=4 shiftwidth=4 expandtab
-set clipboard=exclude:.* " Don't connect to X display
 set showcmd
 set pastetoggle=<F3> " Auto indent when copy & pasting
 set backupdir=~/.vim/tmp//,. " Set swap files directory
 set directory=~/.vim/tmp//,.
 
-colorscheme gruvbox
-let g:gruvbox_contrast_light='soft'
+if !has('nvim')
+    set clipboard=exclude:.* " Don't connect to X display
+endif
 
 " Disable Background Color Erase
 " Removes color reside on scroll
@@ -57,7 +63,14 @@ let g:goyo_height = 95
 
 " FZF Configurations
 " let $FZF_DEFAULT_COMMAND=' (git ls-tree -r --name-only HEAD || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+
+" Comfortable Scroll Configurations
+let g:comfortable_motion_no_default_key_mappings = 1
+let g:comfortable_motion_impulse_multiplier = 1  " Feel free to increase/decrease this value.
+let g:comfortable_motion_friction = 0.0
+let g:comfortable_motion_air_drag = 4.0
 
 " === Key Bindings ===
 " FZF
@@ -98,10 +111,17 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Remap for Comfortable Scroll
+nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
+nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
+nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 4)<CR>
+nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
+
 " === Commands ===
-" Disable auto comment
+" Disable auto comment 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=
 " FZF Preview
+com! -bar -bang Files call fzf#vim#files(<q-args>, fzf#vim#with_preview({}, 'right'), <bang>0)
 com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
 
 " " Open NERDTree on startup
@@ -112,16 +132,16 @@ com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '-
 " Close vim if NERDTree is last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Vue Indentation
+" Vue Indentation 
 au BufRead,BufNewFile *.vue set filetype=vue
 autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " Always center cursor
-augroup VCenterCursor
-    au!
-    au BufEnter,WinEnter,WinNew,VimResized *,*.*
-        \ let &scrolloff=winheight(win_getid())/2
-augroup END
+" augroup VCenterCursor
+"     au!
+"     au BufEnter,WinEnter,WinNew,VimResized *,*.*
+"         \ let &scrolloff=winheight(win_getid())/2
+" augroup END
 " === Color Highlights ===
 
 highlight clear SignColumn
