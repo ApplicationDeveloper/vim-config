@@ -65,6 +65,7 @@ let g:goyo_height = 95
 " let $FZF_DEFAULT_COMMAND=' (git ls-tree -r --name-only HEAD || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+let $FZF_DEFAULT_OPTS='--layout=reverse'
 
 " Comfortable Scroll Configurations
 let g:comfortable_motion_no_default_key_mappings = 1
@@ -142,9 +143,10 @@ autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
 "     au BufEnter,WinEnter,WinNew,VimResized *,*.*
 "         \ let &scrolloff=winheight(win_getid())/2
 " augroup END
+"
 " === Color Highlights ===
-
 highlight clear SignColumn
 highlight PMenu ctermbg=235 ctermfg=145
 highlight CocFloating ctermbg=235 ctermfg=145
 highlight LineNr ctermfg=8
+
