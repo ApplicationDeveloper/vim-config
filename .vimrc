@@ -1,19 +1,17 @@
 call plug#begin()
-Plug 'yuttie/comfortable-motion.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'camspiers/lens.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
 Plug 'tadaa/vimade' " Breaks fzf on Vim
 Plug 'joshdick/onedark.vim'
-Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } 
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
 let g:gruvbox_contrast_light='soft'
-" colorscheme gruvbox
+colorscheme gruvbox
 " colorscheme onedark
 " colorscheme spacecamp
 " === Configurations ===
@@ -63,15 +61,16 @@ let g:goyo_height = 95
 
 " FZF Configurations
 " let $FZF_DEFAULT_COMMAND=' (git ls-tree -r --name-only HEAD || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
+let g:fzf_colors = { 'border':  ['fg', 'FZFBorder'] }
 let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 let $FZF_DEFAULT_OPTS='--layout=reverse'
 
 " Comfortable Scroll Configurations
-let g:comfortable_motion_no_default_key_mappings = 1
-let g:comfortable_motion_impulse_multiplier = 1  " Feel free to increase/decrease this value.
-let g:comfortable_motion_friction = 0.0
-let g:comfortable_motion_air_drag = 4.0
+" let g:comfortable_motion_no_default_key_mappings = 1
+" let g:comfortable_motion_impulse_multiplier = 1  " Feel free to increase/decrease this value.
+" let g:comfortable_motion_friction = 0.0
+" let g:comfortable_motion_air_drag = 4.0
 
 " === Key Bindings ===
 " FZF
@@ -90,6 +89,9 @@ function! s:show_documentation()
         call CocActionAsync('doHover')
     endif
 endfunction
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use TAB to trigger completion
 inoremap <silent><expr> <TAB>
@@ -113,10 +115,10 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Remap for Comfortable Scroll
-nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
-nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
-nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 4)<CR>
-nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
+" nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
+" nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
+" nnoremap <silent> <C-f> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 4)<CR>
+" nnoremap <silent> <C-b> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -4)<CR>
 
 " === Commands ===
 " Disable auto comment 
@@ -134,7 +136,7 @@ com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '-
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Vue Indentation 
-au BufRead,BufNewFile *.vue set filetype=vue
+au BufRead,BufNewFile *.vue set filetype=html
 autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " Always center cursor
@@ -147,6 +149,8 @@ autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
 " === Color Highlights ===
 highlight clear SignColumn
 highlight PMenu ctermbg=235 ctermfg=145
-highlight CocFloating ctermbg=235 ctermfg=145
+" highlight CocFloating ctermbg=235 ctermfg=145
 highlight LineNr ctermfg=8
-
+highlight StatusLine ctermbg=White ctermfg=Black
+highlight Normal ctermbg=Black
+highlight FZFBorder ctermfg=DarkGreen
