@@ -11,6 +11,7 @@ Plug 'junegunn/fzf.vim'
 call plug#end()
 
 let g:gruvbox_contrast_light='soft'
+
 colorscheme gruvbox
 " colorscheme onedark
 " colorscheme spacecamp
@@ -63,7 +64,7 @@ let g:goyo_height = 95
 " let $FZF_DEFAULT_COMMAND=' (git ls-tree -r --name-only HEAD || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
 let g:fzf_colors = { 'border':  ['fg', 'FZFBorder'] }
-let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+let $FZF_DEFAULT_COMMAND='rg --files'
 let $FZF_DEFAULT_OPTS='--layout=reverse'
 
 " === Key Bindings ===
@@ -189,7 +190,11 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=
 " FZF Preview
 com! -bar -bang Files call fzf#vim#files(<q-args>, fzf#vim#with_preview({}, 'right'), <bang>0)
-com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right'), <bang>0)
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep('rg --line-number --color=always '.shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview(),
+  \ <bang>0)
 
 " " Open NERDTree on startup
 " autocmd VimEnter * NERDTree
