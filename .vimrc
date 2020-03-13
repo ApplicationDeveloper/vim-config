@@ -1,6 +1,6 @@
 call plug#begin()
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'camspiers/lens.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tadaa/vimade' " Breaks fzf on Vim
@@ -9,8 +9,6 @@ Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } 
 Plug 'junegunn/fzf.vim'
 call plug#end()
-
-let g:gruvbox_contrast_light='soft'
 
 colorscheme gruvbox
 " colorscheme onedark
@@ -221,5 +219,5 @@ highlight PMenu ctermbg=235 ctermfg=145
 " highlight CocFloating ctermbg=235 ctermfg=145
 highlight LineNr ctermfg=8
 highlight StatusLine ctermbg=White ctermfg=Black
-highlight Normal ctermbg=Black
+highlight Normal ctermbg=None
 highlight FZFBorder ctermfg=DarkGreen
