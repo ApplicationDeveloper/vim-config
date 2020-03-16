@@ -1,7 +1,9 @@
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+Plug 'preservim/nerdtree'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tadaa/vimade' " Breaks fzf on Vim
 Plug 'joshdick/onedark.vim'
@@ -15,6 +17,7 @@ colorscheme gruvbox
 " colorscheme spacecamp
 " === Configurations ===
 " set number " Show line number
+set fillchars+=vert:\ " Remove vertical split border/line
 set guicursor= " Disable cursor shaping neovim
 set mouse=a " Use mouse to scroll 
 set smartindent
@@ -70,7 +73,7 @@ let $FZF_DEFAULT_OPTS='--layout=reverse'
 nmap <C-P> :Files<CR>
 
 " NERDTree
-map <C-F7> :NERDTreeToggle<CR>
+map <silent><F7> :NERDTreeToggle<CR>
 
 " CoC
 inoremap <silent><expr> <TAB>
@@ -205,6 +208,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Vue Indentation 
 au BufRead,BufNewFile *.vue set filetype=vue
 autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " Always center cursor
 " augroup VCenterCursor
@@ -215,9 +219,13 @@ autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 expandtab
 "
 " === Color Highlights ===
 highlight clear SignColumn
+highlight clear StatusLine
+highlight clear StatusLineNC
+highlight clear VertSplit
+highlight StatusLineNC ctermfg=241
+highlight StatusLine ctermfg=255
 highlight PMenu ctermbg=235 ctermfg=145
 " highlight CocFloating ctermbg=235 ctermfg=145
 highlight LineNr ctermfg=8
-highlight StatusLine ctermbg=White ctermfg=Black
 highlight Normal ctermbg=None
 highlight FZFBorder ctermfg=DarkGreen
