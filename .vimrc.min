@@ -1,0 +1,28 @@
+syntax enable
+
+set cursorcolumn                                                                                                        
+set autoindent                                                                                                          
+set autoread                                                                                                            
+"set background=light                                                                                                   
+set backupdir=/tmp//,.                                                                                                  
+set directory=/tmp//,.                                                                                                  
+set encoding=UTF-8                                                                                                      
+set guicursor=                                                                                                          
+set hlsearch                                                                                                            
+set incsearch                                                                                                           
+set mouse=a                                                                                                             
+set nowrap                                                                                                              
+set number                                                                                                              
+set pastetoggle=<F3>                                                                                                    
+set showcmd                                                                                                             
+set smartindent                                                                                                         
+set softtabstop=4 shiftwidth=4 expandtab                                                                                
+set title                                                                                                               
+set hidden                                                                                                              
+"set cmdheight=0                                                                                                        
+set shortmess+=c                                                                                                        
+"set signcolumn=yes                                                                                                      
+set nobackup                                                                                                            
+set nowritebackup
+
+colorscheme morning
